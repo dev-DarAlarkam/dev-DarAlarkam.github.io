@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="js/script.js" defer></script>
     <script src="js/navigation.js" defer></script>
+    <script src="js/form.js" defer></script>
+    <script src="js/certificate.js" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/Amiri-Bold.js" defer></script>
     <script src="js/images.js" defer></script>
@@ -36,8 +37,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <button class="nav-button" onclick="showSection('certificates')">شهادات التفوق</button>
-                                <button class="nav-button" onclick="showSection('certificates')">شهادات المشاركة</button>
+                                <button class="nav-button" onclick="showSection('certificates')">شهادات الحفظ</button>
                             </td>
                         </tr>
                     
@@ -53,9 +53,6 @@
                         <tr>
                             <td><button class="nav-button" onclick="showSection('announcements')">إعلانات المنتدى الفكري</button></td>
                         </tr>
-                        <tr>
-                            <td><button class="nav-button" onclick="showSection('announcements')">إعلانات عامة</button></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -69,7 +66,7 @@
                     <div class="back-arrow"></div>
                     <span>العودة للقائمة الرئيسية</span>
                 </button>
-                <h2>إنشاء شهادة</h2>
+                <h2>إنشاء شهادة حفظ</h2>
                 <div class="form-container">
                     <form id="certificate-form">
                         <div class="form-group">

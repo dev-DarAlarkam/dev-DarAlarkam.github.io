@@ -1,11 +1,3 @@
-// Global variables
-let certificateData = {};
-let selectedGenderTemplate = 'cert-male';
-
-function handleClick(radioButton) {
-    selectedGenderTemplate = radioButton.value;
-}
-
 // Function to add Arabic font to jsPDF
 function SetArabicFontToDoc(doc) {
     try {
@@ -18,62 +10,27 @@ function SetArabicFontToDoc(doc) {
     }
 }
 
+function setOptimalFontSize(doc, text, maxFontSize = 38, minFontSize = 20) {
+    const maxWidth = 165
+    let fontSize = maxFontSize;
+    
+    doc.setFontSize(fontSize);
+    let textWidth = doc.getTextWidth(text);
+    
+    // Reduce font size until text fits
+    while (textWidth > maxWidth && fontSize > minFontSize) {
+        fontSize -= 0.5;
+        doc.setFontSize(fontSize);
+        textWidth = doc.getTextWidth(text);
+    }
+    
+    console.log(fontSize);
+    return fontSize;
+}
+
 function getCleanName() {
     const cleanName = certificateData.studentName.replace(/[^\w\u0600-\u06FF]/g, '_');
     return `Certificate_${cleanName}_${currentYear['hijri']}`;
-}
-
-function validateInput() {
-
-    const studentName = document.getElementById('student-name').value;
-    const certificateType = document.getElementById('certificate-type').value;
-    let certificateText;    
-
-    if (!studentName || !certificateType) {
-
-        document.getElementById('message').innerHTML = '<div class="error-message">يرجى ملء جميع الحقول المطلوبة</div>';
-        return false;
-
-    } else if (certificateType == '1') {
-        // Add validation to ensure there's a selected part
-        const selectedPart = document.getElementById('part-selector').value;
-        if(!selectedPart) {
-            document.getElementById('message').innerHTML = '<div class="error-message">يجب أن تختار جزء من القائمة</div>';
-            return false;
-        }
-        certificateText = parts[selectedPart];
-        
-    } else {
-        // Add validation to ensure "to" is greater than "from" and difference is exactly 4
-        const fromInput = document.getElementById('parts-from').value;
-        const toInput = document.getElementById('parts-to').value;
-        const from = parseInt(fromInput);
-        const to = parseInt(toInput);
-        
-        if (from && to) {
-            if (to < 1) {
-                document.getElementById('message').innerHTML = '<div class="error-message">الجزء الأول لا يمكن أن يكون أقل من 1</div>';
-                return false;
-            } else if (to - from !== 4) {
-                document.getElementById('message').innerHTML = '<div class="error-message">يجب أن يكون الفرق بين الجزأين 4 أجزاء بالضبط</div>';
-                return false;
-            } else if (to > 30) {
-                document.getElementById('message').innerHTML = '<div class="error-message">الجزء الأخير لا يمكن أن يتجاوز 30</div>';
-                return false;
-            } else {}
-        }
-
-        certificateText = "من " + parts[fromInput] + ' إلى ' + parts[toInput];
-    }
-
-    // Store data for PDF generation
-    certificateData = {
-        studentName,
-        certificateType,
-        certificateText
-    };
-
-    return true;
 }
 
 // Certificate generation functions
@@ -84,7 +41,7 @@ async function generatePreview() {
     }
 
     const container = document.getElementById('certificate-preview');
-    const backgroundImage = await generatePreviewPNG();
+    const backgroundImage = await generatePreviewImage();
 
 
     // Show preview and enable download buttons
@@ -92,6 +49,53 @@ async function generatePreview() {
     document.getElementById('pdf-button').disabled = false;
     document.getElementById('png-button').disabled = false;
     document.getElementById('message').innerHTML = '<div class="success-message">تم إنشاء معاينة الشهادة بنجاح</div>';
+}
+
+async function generatePreviewImage() {
+    try {
+        const doc = createCertificateWithJsPDF();
+                
+        // Convert jsPDF to blob
+        const pdfBlob = doc.output('blob');
+        
+        // Create object URL
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        
+        // Load PDF.js
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        
+        // Load the PDF
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+        const page = await pdf.getPage(1); // First page
+        
+        // Create canvas
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        
+        // Set scale for quality (higher = better quality)
+        const scale = 1;
+        const viewport = page.getViewport({ scale });
+        
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        
+        // Render PDF page to canvas
+        await page.render({
+            canvasContext: context,
+            viewport: viewport
+        }).promise;
+        
+        // Convert canvas to base64 PNG
+        const base64 = canvas.toDataURL('image/png');
+        
+        // Cleanup
+        URL.revokeObjectURL(pdfUrl);
+        
+        return base64;
+        
+    } catch (error) {
+        console.error('PNG from PDF preview failed:', error);
+    }
 }
 
 function createCertificateWithJsPDF() {
@@ -110,12 +114,12 @@ function createCertificateWithJsPDF() {
             unit: 'mm',
             format: 'a4',
             putOnlyUsedFonts: true,
-            compress: false,      // Disable compression for higher quality
+            compress: false,
             precision: 16  
         });
 
-        // doc.addImage(images[selectedGenderTemplate], 'PNG', 0, 0, 210, 297);
-        doc.addImage(images['test'], 'PNG', 0, 0, 210, 297);
+        doc.addImage(images[selectedGenderTemplate], 'PNG', 0, 0, 210, 297);
+
         // Add Arabic font support
         SetArabicFontToDoc(doc);
         doc.setFontSize(38);
@@ -211,67 +215,3 @@ async function exportAsPNG() {
     }
 }
 
-async function generatePreviewPNG() {
-    try {
-        const doc = createCertificateWithJsPDF();
-                
-        // Convert jsPDF to blob
-        const pdfBlob = doc.output('blob');
-        
-        // Create object URL
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        
-        // Load PDF.js
-        const pdfjsLib = window['pdfjs-dist/build/pdf'];
-        
-        // Load the PDF
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-        const page = await pdf.getPage(1); // First page
-        
-        // Create canvas
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        
-        // Set scale for quality (higher = better quality)
-        const scale = 1;
-        const viewport = page.getViewport({ scale });
-        
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        
-        // Render PDF page to canvas
-        await page.render({
-            canvasContext: context,
-            viewport: viewport
-        }).promise;
-        
-        // Convert canvas to base64 PNG
-        const base64 = canvas.toDataURL('image/png');
-        
-        // Cleanup
-        URL.revokeObjectURL(pdfUrl);
-        
-        return base64;
-        
-    } catch (error) {
-        console.error('PNG from PDF preview failed:', error);
-    }
-}
-
-function setOptimalFontSize(doc, text, maxFontSize = 38, minFontSize = 20) {
-    const maxWidth = 165
-    let fontSize = maxFontSize;
-    
-    doc.setFontSize(fontSize);
-    let textWidth = doc.getTextWidth(text);
-    
-    // Reduce font size until text fits
-    while (textWidth > maxWidth && fontSize > minFontSize) {
-        fontSize -= 0.5;
-        doc.setFontSize(fontSize);
-        textWidth = doc.getTextWidth(text);
-    }
-    
-    console.log(fontSize);
-    return fontSize;
-}
