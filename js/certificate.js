@@ -46,6 +46,7 @@ async function generatePreview() {
 
     // Show preview and enable download buttons
     container.style.backgroundImage = `url("${backgroundImage}"`;
+    document.getElementById('certificate-preview').classList.remove('hidden');
     document.getElementById('pdf-button').disabled = false;
     document.getElementById('png-button').disabled = false;
     document.getElementById('message').innerHTML = '<div class="success-message">تم إنشاء معاينة الشهادة بنجاح</div>';

@@ -8,6 +8,7 @@ function showSection(type) {
     // Show selected section
     if (type === 'certificates') {
         document.getElementById('certificate-section').classList.remove('hidden');
+        document.getElementById('certificate-preview').classList.add('hidden');
     } else if (type === 'announcements') {
         document.getElementById('announcements-section').classList.remove('hidden');
     }
