@@ -20,7 +20,7 @@ function SetArabicFontToDoc(doc) {
 
 function getCleanName() {
     const cleanName = certificateData.studentName.replace(/[^\w\u0600-\u06FF]/g, '_');
-    return `Certificate_${cleanName}_${certificateData.year}`;
+    return `Certificate_${cleanName}_${currentYear['hijri']}`;
 }
 
 function validateInput() {
@@ -114,7 +114,8 @@ function createCertificateWithJsPDF() {
             precision: 16  
         });
 
-        doc.addImage(images[selectedGenderTemplate], 'PNG', 0, 0, 210, 297);
+        // doc.addImage(images[selectedGenderTemplate], 'PNG', 0, 0, 210, 297);
+        doc.addImage(images['test'], 'PNG', 0, 0, 210, 297);
         // Add Arabic font support
         SetArabicFontToDoc(doc);
         doc.setFontSize(38);
@@ -126,12 +127,14 @@ function createCertificateWithJsPDF() {
         doc.setFontSize(setOptimalFontSize(doc, certificateData.certificateText));
         doc.text(certificateData.certificateText, 105, 210, { align: 'center' });
 
-        // const yearText = " / " + "هـ" + currentYear['hijri'] + " م " + currentYear['georgian'] ;
-        const yearText = "م 2025 / ـه 1446";
-        
+        // Adding current year text
         doc.setFontSize(38);
-        doc.setTextColor(13, 148, 71);
-        doc.text(yearText, 105, 266, { align: 'center' });
+        doc.setTextColor(0, 75, 71);
+        doc.text(currentYear['hijri'], 131, 265, { align: 'center' });
+        doc.text("هـ", 113, 265, { align: 'center' });
+        doc.text("/", 105, 265, { align: 'center' });
+        doc.text(currentYear['georgian'], 87, 265, { align: 'center' });
+        doc.text("م", 70, 265, { align: 'center' });
         
         return doc;
     } catch (error) {
