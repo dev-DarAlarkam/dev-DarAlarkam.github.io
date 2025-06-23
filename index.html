@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>شهادات وإعلانات</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet"> <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="js/script.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/Amiri-Bold.js" defer></script>
+    <script src="js/images.js" defer></script>
 </head>
 <body>
 
@@ -23,22 +30,102 @@
                 <table id="nav-table">
                     <thead>
                         <tr>
-                            <th>إعلانات</th>
                             <th>شهادات</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><button id="">إعلانات المنتدى الفكري</button></td>
-                            <td><button id="">إعلانات المنتدى الفكري</button></td>
+                            <td>
+                                <button class="nav-button" onclick="showSection('certificates')">شهادات التفوق</button>
+                                <button class="nav-button" onclick="showSection('certificates')">شهادات المشاركة</button>
+                            </td>
                         </tr>
-                        <tr>
-                            <td><button id="">إعلانات المنتدى الفكري</button></td>
-                            <td><button id="">إعلانات المنتدى الفكري</button></td>
-                        </tr>
-                        
+                    
                     </tbody>
                 </table>
+                <table id="nav-table">
+                    <thead>
+                        <tr>
+                            <th>إعلانات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><button class="nav-button" onclick="showSection('announcements')">إعلانات المنتدى الفكري</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="nav-button" onclick="showSection('announcements')">إعلانات عامة</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Certificate Generator Section -->
+        <section id="certificate-section" class="section hidden">
+            <div class="container">
+
+                <button type="button" class="back-button" onclick="showNavigation()">
+                    <div class="back-arrow"></div>
+                    <span>العودة للقائمة الرئيسية</span>
+                </button>
+                <h2>إنشاء شهادة</h2>
+                <div class="form-container">
+                    <form id="certificate-form">
+                        <div class="form-group">
+                            <label for="student-name">اسم الطالب:</label>
+                            <input type="text" id="student-name" name="studentName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">طالب أم طالبة؟</label>
+                            <div class="radio-group">
+                                <label class="custom-radio">
+                                    <input id="male" onclick="handleClick(this);" type="radio" name="gender" value="cert-male" checked>
+                                    <span class="radio-mark"></span>
+                                    طالب
+                                </label>
+                                <label class="custom-radio">
+                                    <input id="female" onclick="handleClick(this);" type="radio" name="gender" value="cert-female">
+                                    <span class="radio-mark"></span>
+                                    طالبة
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="certificate-type">نوع الشهادة:</label>
+                            <select id="certificate-type" name="certificateType" required>
+                                <option value="">اختر نوع الشهادة</option>
+                                <option value="1">حفظ جزء</option>
+                                <option value="5">حفظ 5 أجزاء</option>
+                            </select>
+                        </div>
+                        <!-- Dynamic fields container -->
+                        <div id="dynamic-fields"></div>
+
+                        <button type="button" onclick="generatePreview()">معاينة الشهادة</button>
+                        <button type="button" onclick="exportAsPDF()" id="pdf-button" disabled>تحميل PDF</button>
+                        <button type="button" onclick="exportAsPNG()" id="png-button" disabled>تحميل PNG</button>
+                        
+                    </form>
+                    
+                    <div id="message"></div>
+                </div>
+
+                <!-- Certificate Preview -->
+                <div id="certificate-preview" class="certificate-container"></div>
+            </div>
+        </section>
+
+        <!-- Announcements Section (Placeholder) -->
+        <section id="announcements-section" class="section hidden">
+            <div class="container">
+                <h2>إنشاء إعلان</h2>
+                <div class="form-container">
+                    <p>قريباً... سيتم إضافة وظيفة إنشاء الإعلانات</p>
+                    <button type="button" onclick="showNavigation()">العودة للقائمة الرئيسية</button>
+                </div>
             </div>
         </section>
         
