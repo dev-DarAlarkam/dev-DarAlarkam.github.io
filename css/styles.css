@@ -62,6 +62,10 @@ h2 {
     text-align: center;
 }
 
+.sized-box {
+    height: 100px;
+}
+
 /* Navigation Table */
 table {
     width: 100%;

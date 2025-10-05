@@ -10,7 +10,7 @@ function validateInput() {
 
     const studentName = document.getElementById('student-name').value;
     const certificateType = document.getElementById('certificate-type').value;
-    let certificateText;    
+    let certificateText = '';    
 
     if (!studentName || !certificateType) {
 
@@ -27,26 +27,35 @@ function validateInput() {
         certificateText = parts[selectedPart];
         
     } else {
-        // Add validation to ensure "to" is greater than "from" and difference is exactly 4
-        const fromInput = document.getElementById('parts-from').value;
-        const toInput = document.getElementById('parts-to').value;
-        const from = parseInt(fromInput);
-        const to = parseInt(toInput);
-        
-        if (from && to) {
+        const manualInput = document.getElementById('manual-input').checked;
+        const type = parseInt(certificateType);
+        if(!manualInput) {
+            certificateText = memoParts[certificateType]
+
+        } else {
+            
+            const fromInput = document.getElementById('parts-from').value;
+            const toInput = document.getElementById('parts-to').value;
+
+            if(!fromInput || !toInput) {
+                document.getElementById('message').innerHTML = '<div class="error-message">يرجى ملء كلا الحقلين للأجزاء</div>';
+                return false;
+            }
+            const from = parseInt(fromInput);
+            const to = parseInt(toInput);
+
             if (to < 1) {
                 document.getElementById('message').innerHTML = '<div class="error-message">الجزء الأول لا يمكن أن يكون أقل من 1</div>';
                 return false;
-            } else if (to - from !== 4) {
-                document.getElementById('message').innerHTML = '<div class="error-message">يجب أن يكون الفرق بين الجزأين 4 أجزاء بالضبط</div>';
+            } else if (to - from + 1 !== type) {
+                document.getElementById('message').innerHTML = `<div class="error-message">يجب أن يكون اختيارك ${type} اجزاء متسلسلة</div>`;
                 return false;
             } else if (to > 30) {
                 document.getElementById('message').innerHTML = '<div class="error-message">الجزء الأخير لا يمكن أن يتجاوز 30</div>';
                 return false;
             } else {}
+            certificateText = "من " + parts[fromInput] + ' إلى ' + parts[toInput];
         }
-
-        certificateText = "من " + parts[fromInput] + ' إلى ' + parts[toInput];
     }
 
     // Store data for PDF generation
@@ -106,19 +115,40 @@ document.getElementById('certificate-type').addEventListener('change', function(
                 </select>
             </div>
         `;
-    } else if (selectedValue === '5') {
-        // Show from-to text fields for 5 parts
-        dynamicFields.innerHTML = `
-            <div class="form-group">
+    } else if (selectedValue === '5' || selectedValue === '10' || selectedValue === '15' || selectedValue === '20' || selectedValue === '25') {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'manual-input';
+        checkbox.style.verticalAlign = 'middle';
+        const label = document.createElement('label');
+        label.htmlFor = 'manual-input';
+        label.textContent = 'أدخل الأجزاء يدوياً';
+        label.style.display = 'inline-block';
+        label.style.marginRight = '5px';
+        dynamicFields.appendChild(checkbox);
+        dynamicFields.appendChild(label);
+
+        checkbox.onchange = function() {
+            if (this.checked) {
+            dynamicFields.innerHTML = `
+                <div class="form-group">
                 <label for="parts-from">من الجزء:</label>
                 <input type="number" id="parts-from" name="partsFrom" min="1" max="30" required>
-            </div>
-            <div class="form-group">
+                </div>
+                <div class="form-group">
                 <label for="parts-to">إلى الجزء:</label>
                 <input type="number" id="parts-to" name="partsTo" min="1" max="30" required>
-            </div>
-        `;
-        
+                </div>
+            `;
+            // Re-add the checkbox
+            dynamicFields.insertBefore(label, dynamicFields.firstChild);
+            dynamicFields.insertBefore(checkbox, label);
+            } else {
+            dynamicFields.innerHTML = '';
+            dynamicFields.appendChild(checkbox);
+            dynamicFields.appendChild(label);
+            }
+        };
     }
 });
 
@@ -153,4 +183,12 @@ const parts = {
     "28":"الجزء الثامن والعشرون",
     "29":"جزء تبارك",
     "30":"جزء عمّ",
-}
+};
+
+const memoParts = {
+    "5" : "خمسة أجزاء",
+    "10" : "عشرة أجزاء",
+    "15" : "خمسة عشر جزءاً",
+    "20" : "عشرون جزءاً",
+    "25" : "خمس وعشرون جزءاً"
+};
