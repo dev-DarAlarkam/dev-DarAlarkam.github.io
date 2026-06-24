@@ -1,4 +1,4 @@
 const currentYear = {
     "georgian" : "2026",
-    "hijri" : "1447"
+    "hijri" : "1448"
 };
