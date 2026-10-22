@@ -24,7 +24,6 @@ function setOptimalFontSize(doc, text, maxFontSize = 38, minFontSize = 20) {
         textWidth = doc.getTextWidth(text);
     }
     
-    console.log(fontSize);
     return fontSize;
 }
 
