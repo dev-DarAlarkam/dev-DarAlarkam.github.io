@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شهادات وإعلانات</title>
+    <title>أدوات مربو دار الأرقم</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -15,11 +15,12 @@
     <script src="js/Amiri-Bold.js" defer></script>
     <script src="js/images.js" defer></script>
 </head>
-<body>
+<body style="background-image: url('images/pattern.svg'); background-size: auto;">
 
     <header>
         <nav>
-            <h1>إصدار شهادات وإعلانات</h1>
+            <h1>أدوات مربو دار الأرقم</h1>
+            
         </nav>
     </header>
 
@@ -28,10 +29,11 @@
         <!-- Navigation Section -->
         <section id="nav-section" class="section">
             <div class="container">
+                <img src="images/logo.svg" alt="شعار دار الأرقم" class="site-logo">
                 <table id="nav-table">
                     <thead>
                         <tr>
-                            <th>شهادات</th>
+                            <th>إصدار شهادات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +48,20 @@
                 <table id="nav-table">
                     <thead>
                         <tr>
-                            <th>إعلانات</th>
+                            <th>روابط مهمة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><button class="nav-button" onclick="window.location.href='https://forms.gle/LcPmuuy2jvSXXnYTA';">استمارة طباعة أوراق</button>
+                                <button class="nav-button" onclick="window.location.href='https://forms.gle/p3TE11aikhqTRkEz9';">استمارة مشاركة فعاليات</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="nav-table">
+                    <thead>
+                        <tr>
+                            <th>انشاء إعلانات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,7 +149,8 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 <a href="https://www.facebook.com/dar9alarkam" target="_blank">دار الأرقم</a>. جميع الحقوق محفوطة.</p>
+        
+        <p>&copy; <strong id="year-display">Loading...</strong> <a href="https://www.facebook.com/dar9alarkam" target="_blank">دار الأرقم</a>. جميع الحقوق محفوطة.</p>
     </footer>
 </body>
 </html>

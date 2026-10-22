@@ -1,8 +1,8 @@
 /* General Styling */
 :root {
-    --primary-color: #004b47;
-    --secondary-color: #00934b;
-    --background-color: #f4f4f4;
+    --primary-color: #b87a45;
+    --secondary-color: #e8d2b5;
+    --background-color: #f9ecd9;
     --text-color: #333;
 }
 
@@ -15,7 +15,7 @@
 
 body {
     font-family: 'Readex Pro', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f9ecd9;
     color: #333;
     line-height: 1.6;
 }
@@ -23,7 +23,7 @@ body {
 /* Header Styling */
 header {
     background-color: var(--primary-color);
-    color: var(--background-color);
+    color: #ffffff;
     padding: 20px 0;
     text-align: center;
     position: sticky;
@@ -32,9 +32,28 @@ header {
     z-index: 1000;
 }
 
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 header h1 {
-    font-size: 2rem;
-    font-weight: 600;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 auto;
+}
+
+.site-logo {
+    display: block;
+    width: 40px;
+    height: auto;
+    margin: 0 auto 10px;
 }
 
 /* Main Content Styling */
@@ -52,13 +71,14 @@ main {
 .container {
     width: 80%;
     margin: 0 auto;
+    text-align: center;
 }
 
 
 h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: #004623;
+    color: #000000;
     text-align: center;
 }
 
@@ -75,12 +95,19 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #b87a45;
 }
 
 th, td {
     padding: 15px;
     text-align: center;
+}
+
+td {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 thead {
@@ -109,7 +136,7 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: var(--secondary-color);
+    color: #000000;
 }
 
 input[type="text"], input[type="number"], select {
@@ -124,13 +151,13 @@ input[type="text"], input[type="number"], select {
 
 input[type="text"]:focus, input[type="number"]:focus, select:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: #000000;
 }
 
 /* Buttons Styling */
 button {
     background-color: var(--primary-color);
-    color: var(--background-color);
+    color: #ffffff;
     border: none;
     padding: 12px 24px;
     font-size: 1rem;
@@ -160,6 +187,8 @@ button:disabled {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 260px;
 }
 
 .nav-button:hover {
@@ -168,7 +197,7 @@ button:disabled {
 }
 .back-button {
     background-color: var(--primary-color);
-    color: var(--background-color);
+    color: #ffffff;
     border: none;
     padding: 12px 24px;
     font-size: 1rem;
@@ -198,8 +227,8 @@ button:disabled {
     transform: translate(-50%, -50%) rotate(-135deg);
     width: 12px;
     height: 12px;
-    border-left: 3px solid var(--background-color);
-    border-bottom: 3px solid var(--background-color);
+    border-left: 3px solid #ffffff;
+    border-bottom: 3px solid #ffffff;
 }
 
 .back-arrow::after {
@@ -210,7 +239,7 @@ button:disabled {
     transform: translate(-70%, -50%);
     width: 16px;
     height: 3px;
-    background-color: var(--background-color);
+    background-color: #ffffff;
 }
 /* Hidden sections */
 .hidden {
@@ -219,7 +248,7 @@ button:disabled {
 
 /* Success message */
 .success-message {
-    color: var(--primary-color);
+    color: #146d38;
     font-weight: bold;
     margin-top: 10px;
 }
@@ -230,6 +259,19 @@ button:disabled {
     margin-top: 10px;
 }
 
+@media (max-width: 480px) {
+    td {
+        gap: 16px;
+        padding: 18px 10px;
+    }
+
+    .nav-button {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
 /* Footer Styling */
 footer {
     direction: ltr;
@@ -237,8 +279,11 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: sticky;
-    margin-top: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /* margin-top: 20px; */
     font-size: 0.9rem;
 }
 
