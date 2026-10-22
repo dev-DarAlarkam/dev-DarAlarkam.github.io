@@ -33,6 +33,11 @@ header {
     top: 0;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+header.is-hidden {
+    transform: translateY(-100%);
 }
 
 header nav {
@@ -143,6 +148,7 @@ label {
     margin-bottom: 8px;
     font-weight: 500;
     color: #000000;
+    text-align: right;
 }
 
 input[type="text"], input[type="number"], select {
@@ -289,8 +295,17 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-    /* margin-top: 20px; */
     font-size: 0.9rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+footer.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 a {

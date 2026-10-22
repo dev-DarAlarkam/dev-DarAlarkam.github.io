@@ -29,3 +29,17 @@ function showNavigation() {
     document.getElementById('png-button').disabled = true;
     document.getElementById('message').innerHTML = '';
 }
+
+const pageHeader = document.querySelector('header');
+const pageFooter = document.querySelector('footer');
+
+function updateScrollVisibility() {
+    pageHeader.classList.toggle('is-hidden', window.scrollY > 0);
+
+    const reachedBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;
+    pageFooter.classList.toggle('is-visible', reachedBottom);
+}
+
+window.addEventListener('scroll', updateScrollVisibility, { passive: true });
+window.addEventListener('resize', updateScrollVisibility);
+updateScrollVisibility();
