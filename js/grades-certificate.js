@@ -5,7 +5,7 @@ const gradesCertificateTemplates = {
 };
 const gradesCertificateMaximumRows = 10;
 const gradesCertificateTableStyle = {
-    position: { x: 32.5, y: 56, width: 145, height: 105 },
+    position: { x: 32.5, y: 60, width: 145, height: 105 },
     canvas: { width: 1650, height: 960 },
     fontFamily: 'MS Uighur',
     fontWeight: 'bold',
