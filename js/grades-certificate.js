@@ -6,7 +6,7 @@ const gradesCertificateTemplates = {
 const gradesCertificateMaximumRows = 10;
 const gradesCertificateTableStyle = {
     position: { x: 32.5, y: 60, width: 145, height: 105 },
-    canvas: { width: 1650, height: 960 },
+    canvas: { width: 1650, height: 1195 },
     fontFamily: 'MS Uighur',
     fontWeight: 'bold',
     title: 'كشف العلامات',
@@ -256,7 +256,7 @@ async function createGradesCertificate() {
     drawGradesTable(context, data.studentName, data.rows, data.average, canvas.width, canvas.height);
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: false, precision: 16 });
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true, precision: 16 });
     doc.addImage(templateData, 'PNG', 0, 0, 210, 297);
     const position = gradesCertificateTableStyle.position;
     doc.addImage(canvas, 'PNG', position.x, position.y, position.width, position.height);

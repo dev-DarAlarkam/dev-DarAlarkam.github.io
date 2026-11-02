@@ -123,7 +123,7 @@ async function createCompletionCertificate() {
         unit: 'mm',
         format: 'a4',
         putOnlyUsedFonts: true,
-        compress: false,
+        compress: true,
         precision: 16
     });
 
