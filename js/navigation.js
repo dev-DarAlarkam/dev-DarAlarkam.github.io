@@ -3,12 +3,17 @@ function showSection(type) {
     // Hide all sections
     document.getElementById('nav-section').classList.add('hidden');
     document.getElementById('certificate-section').classList.add('hidden');
+    document.getElementById('completion-certificate-section').classList.add('hidden');
     document.getElementById('announcements-section').classList.add('hidden');
 
     // Show selected section
     if (type === 'certificates') {
         document.getElementById('certificate-section').classList.remove('hidden');
         document.getElementById('certificate-preview').classList.add('hidden');
+    } else if (type === 'completion-certificate') {
+        document.getElementById('completion-certificate-section').classList.remove('hidden');
+        document.getElementById('completion-certificate-preview').classList.add('hidden');
+        document.getElementById('grades-certificate-preview').classList.add('hidden');
     } else if (type === 'announcements') {
         document.getElementById('announcements-section').classList.remove('hidden');
     }
@@ -17,17 +22,26 @@ function showSection(type) {
 function showNavigation() {
     // Hide all sections
     document.getElementById('certificate-section').classList.add('hidden');
+    document.getElementById('completion-certificate-section').classList.add('hidden');
     document.getElementById('announcements-section').classList.add('hidden');
     document.getElementById('certificate-preview').classList.add('hidden');
+    document.getElementById('completion-certificate-preview').classList.add('hidden');
+    document.getElementById('grades-certificate-preview').classList.add('hidden');
     
     // Show navigation
     document.getElementById('nav-section').classList.remove('hidden');
     
     // Reset form
     document.getElementById('certificate-form').reset();
+    document.getElementById('completion-certificate-form').reset();
+    restoreCompletionCertificateYears();
+    resetGradesCertificateForm();
     document.getElementById('pdf-button').disabled = true;
     document.getElementById('png-button').disabled = true;
+    document.getElementById('completion-pdf-button').disabled = true;
+    document.getElementById('completion-png-button').disabled = true;
     document.getElementById('message').innerHTML = '';
+    document.getElementById('completion-message').innerHTML = '';
 }
 
 const pageHeader = document.querySelector('header');
