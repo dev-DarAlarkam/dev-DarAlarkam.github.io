@@ -122,6 +122,15 @@ function setGradesMessage(message, type) {
     document.getElementById('grades-message').innerHTML = `<div class="${type}-message">${message}</div>`;
 }
 
+function setGradesPreviewGenerating(isGenerating) {
+    const section = document.querySelector('.grades-certificate-section');
+    const previewButton = document.getElementById('grades-preview-button');
+    section.inert = isGenerating;
+    section.setAttribute('aria-busy', String(isGenerating));
+    previewButton.disabled = isGenerating;
+    previewButton.textContent = isGenerating ? 'جارٍ إنشاء المعاينة...' : 'معاينة الشهادة';
+}
+
 function getGradesCertificateFileName(extension) {
     const studentName = document.getElementById('grades-student-name').value.trim();
     const cleanName = studentName.replace(/[^\w\u0600-\u06FF]/g, '_');
@@ -314,6 +323,7 @@ async function renderGradesCertificate(scale) {
 }
 
 async function generateGradesPreview() {
+    setGradesPreviewGenerating(true);
     try {
         const { canvas } = await renderGradesCertificate(1);
         const preview = document.getElementById('grades-certificate-preview');
@@ -324,6 +334,8 @@ async function generateGradesPreview() {
         setGradesMessage('تم إنشاء معاينة شهادة العلامات بنجاح', 'success');
     } catch (error) {
         setGradesMessage(error.message, 'error');
+    } finally {
+        setGradesPreviewGenerating(false);
     }
 }
 

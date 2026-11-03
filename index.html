@@ -142,6 +142,7 @@
         <!-- Completion Certificate Generator Section -->
         <section id="completion-certificate-section" class="section hidden">
             <div class="container">
+                <div id="completion-certificate-workflow" class="completion-certificate-workflow">
                 <button type="button" class="back-button" onclick="showNavigation()">
                     <div class="back-arrow"></div>
                     <span>العودة للقائمة الرئيسية</span>
@@ -158,13 +159,14 @@
                             <button type="button" onclick="openCompletionYearsDialog()">تعديل السنوات</button>
                         </div>
                         <div class="sized-box"></div>
-                        <button type="button" onclick="generateCompletionPreview()">معاينة الشهادة</button>
+                        <button type="button" id="completion-preview-button" onclick="generateCompletionPreview()">معاينة الشهادة</button>
                         <button type="button" onclick="exportCompletionAsPDF()" id="completion-pdf-button" disabled>تحميل PDF</button>
                         <button type="button" onclick="exportCompletionAsPNG()" id="completion-png-button" disabled>تحميل PNG</button>
                     </form>
                     <div id="completion-message"></div>
                 </div>
                 <div id="completion-certificate-preview" class="certificate-container hidden"></div>
+                </div>
                 <div class="grades-certificate-section">
                     <h2>إنشاء شهادة درجات</h2>
                     <div class="form-container">
@@ -194,7 +196,7 @@
                             </div>
                             <button type="button" onclick="addGradesRow()" id="add-grades-row-button">إضافة مادة</button>
                             <div class="sized-box"></div>
-                            <button type="button" onclick="generateGradesPreview()">معاينة الشهادة</button>
+                            <button type="button" id="grades-preview-button" onclick="generateGradesPreview()">معاينة الشهادة</button>
                             <button type="button" onclick="exportGradesAsPDF()" id="grades-pdf-button" disabled>تحميل PDF</button>
                             <button type="button" onclick="exportGradesAsPNG()" id="grades-png-button" disabled>تحميل PNG</button>
                         </form>

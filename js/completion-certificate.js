@@ -68,9 +68,19 @@ function setCompletionMessage(message, type) {
 
 function invalidateCompletionPreview() {
     completionPreviewRequestId += 1;
+    setCompletionPreviewGenerating(false);
     document.getElementById('completion-certificate-preview').classList.add('hidden');
     document.getElementById('completion-pdf-button').disabled = true;
     document.getElementById('completion-png-button').disabled = true;
+}
+
+function setCompletionPreviewGenerating(isGenerating) {
+    const workflow = document.getElementById('completion-certificate-workflow');
+    const previewButton = document.getElementById('completion-preview-button');
+    previewButton.disabled = isGenerating;
+    previewButton.textContent = isGenerating ? 'جارٍ إنشاء المعاينة...' : 'معاينة الشهادة';
+    workflow.inert = isGenerating;
+    workflow.setAttribute('aria-busy', String(isGenerating));
 }
 
 async function createGradientNameCanvas(name, maxFontSize = 80, gradientColors = ['#9a682c', '#e9bf68']) {
@@ -209,6 +219,7 @@ async function renderCompletionCertificate(scale) {
 
 async function generateCompletionPreview() {
     const requestId = ++completionPreviewRequestId;
+    setCompletionPreviewGenerating(true);
     try {
         const { canvas } = await renderCompletionCertificate(1);
         if (requestId !== completionPreviewRequestId) {
@@ -223,6 +234,10 @@ async function generateCompletionPreview() {
     } catch (error) {
         if (requestId === completionPreviewRequestId) {
             setCompletionMessage(error.message, 'error');
+        }
+    } finally {
+        if (requestId === completionPreviewRequestId) {
+            setCompletionPreviewGenerating(false);
         }
     }
 }

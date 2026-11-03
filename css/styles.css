@@ -189,6 +189,11 @@ tbody tr {
     margin-top: 40px;
 }
 
+.completion-certificate-workflow[aria-busy="true"],
+.grades-certificate-section[aria-busy="true"] {
+    opacity: 0.65;
+}
+
 .grades-table-wrapper {
     max-width: 100%;
     overflow-x: auto;
