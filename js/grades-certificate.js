@@ -5,15 +5,15 @@ const gradesCertificateTemplates = {
 };
 const gradesCertificateMaximumRows = 10;
 const gradesCertificateTableStyle = {
-    position: { x: 32.5, y: 60, width: 145, height: 105 },
+    position: { x: 32.5, y: 60, width: 145, height: 125 },
     canvas: { width: 1650, height: 1195 },
     fontFamily: 'MS Uighur',
     fontWeight: 'bold',
     title: 'كشف العلامات',
-    titleFontSize: 100,
+    titleFontSize: 130,
     titleY: 110,
     titleGradient: ['#9a682c', '#e9bf68'],
-    textColor: '#58595b',
+    textColor: '#000000',
     borderColor: '#9a682c',
     borderWidth: 2,
     headerBackground: '#f2e6d0',
@@ -31,6 +31,7 @@ const gradesCertificateTableStyle = {
     subjectTextPadding: 36
 };
 let gradesCertificateRows = [];
+let gradesCertificateCache = null;
 
 function addGradesRow(focusInput = true) {
     const tableBody = document.getElementById('grades-table-body');
@@ -195,8 +196,8 @@ function drawGradesTable(context, studentName, rows, average, width, height) {
     }
     context.stroke();
 
-    context.textAlign = 'right';
-    context.fillText('المعيار', width - style.horizontalPadding, tableTop + rowHeight / 2);
+    context.textAlign = 'center';
+    context.fillText('المعيار', (width + dividerX) / 2, tableTop + rowHeight / 2);
     context.textAlign = 'center';
     context.fillText('العلامة', dividerX / 2, tableTop + rowHeight / 2);
 
@@ -204,8 +205,8 @@ function drawGradesTable(context, studentName, rows, average, width, height) {
         const centerY = tableTop + rowHeight * (index + 1.5);
         const subjectFontSize = fitGradesText(context, subject, fontSize, width - dividerX - style.subjectTextPadding, style);
         context.font = tableFont(subjectFontSize);
-        context.textAlign = 'right';
-        context.fillText(subject, width - style.horizontalPadding, centerY);
+        context.textAlign = 'center';
+        context.fillText(subject, (width + dividerX) / 2, centerY);
         context.font = tableFont(fontSize);
         context.textAlign = 'center';
         context.fillText(String(grade), dividerX / 2, centerY);
@@ -213,8 +214,8 @@ function drawGradesTable(context, studentName, rows, average, width, height) {
 
     const averageY = tableTop + rowHeight * (rows.length + 1.5);
     context.font = tableFont(fontSize);
-    context.textAlign = 'right';
-    context.fillText('المعدل', width - style.horizontalPadding, averageY);
+    context.textAlign = 'center';
+    context.fillText('المعدل', (width + dividerX) / 2, averageY);
     context.textAlign = 'center';
     context.fillText(average.toFixed(1), dividerX / 2, averageY);
 }
@@ -231,8 +232,29 @@ function fitGradesText(context, text, initialSize, maxWidth, style) {
     return fontSize;
 }
 
-async function createGradesCertificate() {
+function getGradesCertificateCache() {
     const data = getGradesCertificateData();
+    const cacheKey = JSON.stringify(data);
+    if (gradesCertificateCache?.key === cacheKey) {
+        return gradesCertificateCache;
+    }
+
+    const cache = { key: cacheKey, renderedCanvases: new Map() };
+    cache.documentPromise = buildGradesCertificate(data).catch((error) => {
+        if (gradesCertificateCache === cache) {
+            gradesCertificateCache = null;
+        }
+        throw error;
+    });
+    gradesCertificateCache = cache;
+    return cache;
+}
+
+async function createGradesCertificate() {
+    return getGradesCertificateCache().documentPromise;
+}
+
+async function buildGradesCertificate(data) {
     gradesCertificateRows = data.rows;
     const medalType = getGradesCertificateMedal(data.average);
     const response = await fetch(gradesCertificateTemplates[medalType]);
@@ -264,22 +286,31 @@ async function createGradesCertificate() {
 }
 
 async function renderGradesCertificate(scale) {
-    const doc = await createGradesCertificate();
-    const pdfUrl = URL.createObjectURL(doc.output('blob'));
-    try {
-        const pdfjsLib = window['pdfjs-dist/build/pdf'];
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-        const page = await pdf.getPage(1);
-        const viewport = page.getViewport({ scale });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        await page.render({ canvasContext: context, viewport }).promise;
-        return { canvas, doc };
-    } finally {
-        URL.revokeObjectURL(pdfUrl);
+    const cache = getGradesCertificateCache();
+    if (!cache.renderedCanvases.has(scale)) {
+        const renderPromise = cache.documentPromise.then(async (doc) => {
+            const pdfUrl = URL.createObjectURL(doc.output('blob'));
+            try {
+                const pdfjsLib = window['pdfjs-dist/build/pdf'];
+                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport }).promise;
+                return { canvas, doc };
+            } finally {
+                URL.revokeObjectURL(pdfUrl);
+            }
+        }).catch((error) => {
+            cache.renderedCanvases.delete(scale);
+            throw error;
+        });
+        cache.renderedCanvases.set(scale, renderPromise);
     }
+    return cache.renderedCanvases.get(scale);
 }
 
 async function generateGradesPreview() {

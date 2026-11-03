@@ -1,5 +1,6 @@
 const completionCertificateTemplatePath = 'images/completion-certificate.png';
-let completionCertificateName = '';
+let completionCertificateCache = null;
+let completionPreviewRequestId = 0;
 const completionCertificateYearsStorageKey = 'darAlarkamCompletionCertificateYears';
 const defaultCompletionCertificateYears = { start: '1444', finish: '1448' };
 let completionCertificateYears = { ...defaultCompletionCertificateYears };
@@ -11,6 +12,7 @@ function saveCompletionCertificateYears() {
     };
     localStorage.setItem(completionCertificateYearsStorageKey, JSON.stringify(completionCertificateYears));
     updateCompletionCertificateYearsDisplay();
+    invalidateCompletionPreview();
     closeCompletionYearsDialog();
 }
 
@@ -64,6 +66,13 @@ function setCompletionMessage(message, type) {
     document.getElementById('completion-message').innerHTML = `<div class="${type}-message">${message}</div>`;
 }
 
+function invalidateCompletionPreview() {
+    completionPreviewRequestId += 1;
+    document.getElementById('completion-certificate-preview').classList.add('hidden');
+    document.getElementById('completion-pdf-button').disabled = true;
+    document.getElementById('completion-png-button').disabled = true;
+}
+
 async function createGradientNameCanvas(name, maxFontSize = 80, gradientColors = ['#9a682c', '#e9bf68']) {
     const canvas = document.createElement('canvas');
     canvas.width = 1650;
@@ -96,13 +105,39 @@ async function createGradientNameCanvas(name, maxFontSize = 80, gradientColors =
     return canvas;
 }
 
-async function createCompletionCertificate() {
-    if (!completionCertificateName) {
+function getCompletionCertificateCache() {
+    const data = {
+        name: document.getElementById('completion-student-name').value.trim(),
+        years: { ...completionCertificateYears }
+    };
+    if (!data.name) {
         throw new Error('يرجى إدخال الاسم الكامل أولاً');
     }
     if (!completionCertificateTemplatePath) {
         throw new Error('أضف مسار قالب الشهادة في completionCertificateTemplatePath');
     }
+
+    const cacheKey = JSON.stringify(data);
+    if (completionCertificateCache?.key === cacheKey) {
+        return completionCertificateCache;
+    }
+
+    const cache = { key: cacheKey, name: data.name, renderedCanvases: new Map() };
+    cache.documentPromise = buildCompletionCertificate(data).catch((error) => {
+        if (completionCertificateCache === cache) {
+            completionCertificateCache = null;
+        }
+        throw error;
+    });
+    completionCertificateCache = cache;
+    return cache;
+}
+
+async function createCompletionCertificate() {
+    return getCompletionCertificateCache().documentPromise;
+}
+
+async function buildCompletionCertificate(data) {
 
     const response = await fetch(completionCertificateTemplatePath);
     if (!response.ok) {
@@ -128,51 +163,57 @@ async function createCompletionCertificate() {
     });
 
     doc.addImage(templateData, 0, 0, 210, 297);
-    const nameCanvas = await createGradientNameCanvas(completionCertificateName);
+    const nameCanvas = await createGradientNameCanvas(data.name);
     doc.addImage(nameCanvas, 'PNG', 22.5, 129, 165, 30);
-    const yearsFontSize = 45;
-    const yearsColors = ['#58595b', '#58595b'];
-    const startYearText = `${completionCertificateYears.start}`;
-    const finishYearText = `${completionCertificateYears.finish}`;
+    const yearsFontSize = 40;
+    const yearsColors = ['#000000', '#000000'];
+    const startYearText = `${data.years.start}`;
+    const finishYearText = `${data.years.finish}`;
 
     const startYearCanvas = await createGradientNameCanvas(startYearText, yearsFontSize, yearsColors);
     const finishYearCanvas = await createGradientNameCanvas(finishYearText, yearsFontSize, yearsColors);
 
-    doc.addImage(startYearCanvas, 'PNG', 61, 167, 165, 30);
-    doc.addImage(finishYearCanvas, 'PNG', -19, 167, 165, 30);
+    doc.addImage(startYearCanvas, 'PNG', 55, 163, 165, 30);
+    doc.addImage(finishYearCanvas, 'PNG', -12, 163, 165, 30);
 
     return doc;
 }
 
 async function renderCompletionCertificate(scale) {
-    const doc = await createCompletionCertificate();
-    const pdfUrl = URL.createObjectURL(doc.output('blob'));
-
-    try {
-        const pdfjsLib = window['pdfjs-dist/build/pdf'];
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-        const page = await pdf.getPage(1);
-        const viewport = page.getViewport({ scale });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        await page.render({ canvasContext: context, viewport }).promise;
-        return { canvas, doc };
-    } finally {
-        URL.revokeObjectURL(pdfUrl);
+    const cache = getCompletionCertificateCache();
+    if (!cache.renderedCanvases.has(scale)) {
+        const renderPromise = cache.documentPromise.then(async (doc) => {
+            const pdfUrl = URL.createObjectURL(doc.output('blob'));
+            try {
+                const pdfjsLib = window['pdfjs-dist/build/pdf'];
+                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport }).promise;
+                return { canvas, doc, name: cache.name };
+            } finally {
+                URL.revokeObjectURL(pdfUrl);
+            }
+        }).catch((error) => {
+            cache.renderedCanvases.delete(scale);
+            throw error;
+        });
+        cache.renderedCanvases.set(scale, renderPromise);
     }
+    return cache.renderedCanvases.get(scale);
 }
 
 async function generateCompletionPreview() {
-    completionCertificateName = document.getElementById('completion-student-name').value.trim();
-    if (!completionCertificateName) {
-        setCompletionMessage('يرجى إدخال الاسم الكامل', 'error');
-        return;
-    }
-
+    const requestId = ++completionPreviewRequestId;
     try {
         const { canvas } = await renderCompletionCertificate(1);
+        if (requestId !== completionPreviewRequestId) {
+            return;
+        }
         const preview = document.getElementById('completion-certificate-preview');
         preview.style.backgroundImage = `url("${canvas.toDataURL('image/png')}")`;
         preview.classList.remove('hidden');
@@ -180,15 +221,17 @@ async function generateCompletionPreview() {
         document.getElementById('completion-png-button').disabled = false;
         setCompletionMessage('تم إنشاء معاينة الشهادة بنجاح', 'success');
     } catch (error) {
-        setCompletionMessage(error.message, 'error');
+        if (requestId === completionPreviewRequestId) {
+            setCompletionMessage(error.message, 'error');
+        }
     }
 }
 
 async function exportCompletionAsPDF() {
     try {
-        completionCertificateName = document.getElementById('completion-student-name').value.trim();
-        const doc = await createCompletionCertificate();
-        const cleanName = completionCertificateName.replace(/[^\w\u0600-\u06FF]/g, '_');
+        const cache = getCompletionCertificateCache();
+        const doc = await cache.documentPromise;
+        const cleanName = cache.name.replace(/[^\w\u0600-\u06FF]/g, '_');
         doc.save(`Completion_Certificate_${cleanName}.pdf`);
         setCompletionMessage('تم تحميل الشهادة بنجاح!', 'success');
     } catch (error) {
@@ -198,9 +241,8 @@ async function exportCompletionAsPDF() {
 
 async function exportCompletionAsPNG() {
     try {
-        completionCertificateName = document.getElementById('completion-student-name').value.trim();
-        const { canvas } = await renderCompletionCertificate(3);
-        const cleanName = completionCertificateName.replace(/[^\w\u0600-\u06FF]/g, '_');
+        const { canvas, name } = await renderCompletionCertificate(3);
+        const cleanName = name.replace(/[^\w\u0600-\u06FF]/g, '_');
         const link = document.createElement('a');
         link.download = `Completion_Certificate_${cleanName}.png`;
         link.href = canvas.toDataURL('image/png');
@@ -210,4 +252,5 @@ async function exportCompletionAsPNG() {
     }
 }
 
+document.getElementById('completion-student-name').addEventListener('input', invalidateCompletionPreview);
 initializeCompletionCertificateYears();
