@@ -55,12 +55,6 @@ header nav {
     position: relative;
 }
 
-.home-link {
-    position: absolute;
-    left: 20px;
-    color: #fff;
-}
-
 header h1 {
     color: #ffffff;
     display: flex;
@@ -204,48 +198,39 @@ button:disabled {
     background-color: var(--primary-color);
     color: #ffffff;
     border: none;
-    padding: 12px 24px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px 14px;
     font-size: 1rem;
     font-family: 'Readex Pro', sans-serif;
     font-weight: 400;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 5px;
+    margin: 0 0 20px auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     text-decoration: none;
 }
 
 .back-arrow {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     position: relative;
+    flex: 0 0 18px;
 }
 
 .back-arrow::before {
-    content: '';
+    content: '→';
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-135deg);
-    width: 12px;
-    height: 12px;
-    border-left: 3px solid #ffffff;
-    border-bottom: 3px solid #ffffff;
-}
-
-.back-arrow::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-70%, -50%);
-    width: 16px;
-    height: 3px;
-    background-color: #ffffff;
+    inset: -2px 0 0;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    line-height: 18px;
+    text-align: center;
 }
 /* Hidden sections */
 .hidden {
@@ -310,6 +295,12 @@ a {
 
 a:visited {
     color: inherit;
+}
+
+a.nav-button:visited,
+a.back-button:visited,
+a.resource-download:visited {
+    color: #fff;
 }
 
 a:hover {
