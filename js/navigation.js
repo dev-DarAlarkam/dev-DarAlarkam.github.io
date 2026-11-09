@@ -5,6 +5,8 @@ function showSection(type) {
     document.getElementById('certificate-section').classList.add('hidden');
     document.getElementById('completion-certificate-section').classList.add('hidden');
     document.getElementById('announcements-section').classList.add('hidden');
+    document.getElementById('resources-section').classList.add('hidden');
+    document.getElementById('anthem-section').classList.add('hidden');
 
     // Show selected section
     if (type === 'certificates') {
@@ -16,6 +18,10 @@ function showSection(type) {
         document.getElementById('grades-certificate-preview').classList.add('hidden');
     } else if (type === 'announcements') {
         document.getElementById('announcements-section').classList.remove('hidden');
+    } else if (type === 'resources') {
+        document.getElementById('resources-section').classList.remove('hidden');
+    } else if (type === 'anthem') {
+        document.getElementById('anthem-section').classList.remove('hidden');
     }
 }
 
@@ -24,6 +30,8 @@ function showNavigation() {
     document.getElementById('certificate-section').classList.add('hidden');
     document.getElementById('completion-certificate-section').classList.add('hidden');
     document.getElementById('announcements-section').classList.add('hidden');
+    document.getElementById('resources-section').classList.add('hidden');
+    document.getElementById('anthem-section').classList.add('hidden');
     document.getElementById('certificate-preview').classList.add('hidden');
     document.getElementById('completion-certificate-preview').classList.add('hidden');
     document.getElementById('grades-certificate-preview').classList.add('hidden');

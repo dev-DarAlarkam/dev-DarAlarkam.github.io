@@ -49,6 +49,21 @@
                 <table id="nav-table">
                     <thead>
                         <tr>
+                            <th>الشعارات والنشيد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <button class="nav-button" onclick="showSection('resources')">الشعارات</button>
+                                <button class="nav-button" onclick="showSection('anthem')">نشيد دار الأرقم</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="nav-table">
+                    <thead>
+                        <tr>
                             <th>إصدار شهادات</th>
                         </tr>
                     </thead>
@@ -229,6 +244,150 @@
                 <div class="form-container">
                     <p>قريباً... سيتم إضافة وظيفة إنشاء الإعلانات</p>
                     <button type="button" onclick="showNavigation()">العودة للقائمة الرئيسية</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources-section" class="section hidden">
+            <div class="container">
+                <button type="button" class="back-button" onclick="showNavigation()">
+                    <div class="back-arrow"></div>
+                    <span>العودة للقائمة الرئيسية</span>
+                </button>
+                <h2>شعارات دار الأرقم</h2>
+                <div class="logo-grid">
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/main-full.png" alt="معاينة الشعار الرئيسي الكامل">
+                        <h3>الشعار الرئيسي - كامل</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/main-full.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/main-full.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/main-full.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/main-minimal.png" alt="معاينة الشعار الرئيسي المختصر">
+                        <h3>الشعار الرئيسي - مختصر</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/main-minimal.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/main-minimal.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/main-minimal.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/all-logos.png" alt="معاينة مجموعة الشعارات كاملة">
+                        <h3>مجموعة الشعارات كاملة</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/all-logos.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/all-logos.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/all-logos.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/fityan.png" alt="معاينة شعار فتيان دار الأرقم">
+                        <h3>فتيان دار الأرقم</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/fityan.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/fityan.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/fityan.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/hafadha.png" alt="معاينة شعار ملتقى الحفاظ">
+                        <h3>ملتقى الحفظة</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/hafadha.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/hafadha.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/hafadha.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/maahad.png" alt="معاينة شعار المعاهد والمقارئ القرآنية">
+                        <h3>المعاهد والمقارئ القرآنية</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/maahad.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/maahad.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/maahad.svg" download>SVG</a>
+                        </div>
+                    </article>
+
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/moltaqa.png" alt="معاينة شعار ملتقى دار الأرقم الفكري">
+                        <h3>ملتقى دار الأرقم الفكري</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/moltaqa.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/moltaqa.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/moltaqa.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/nashr-w-i'lam.png" alt="معاينة شعار النشر والإعلام">
+                        <h3>النشر والإعلام</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/nashr-w-i'lam.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/nashr-w-i'lam.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/nashr-w-i'lam.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/qaeda-nouraniya.png" alt="معاينة شعار القاعدة النورانية">
+                        <h3>القاعدة النورانية</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/qaeda-nouraniya.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/qaeda-nouraniya.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/qaeda-nouraniya.svg" download>SVG</a>
+                        </div>
+                    </article>
+                    <article class="logo-card">
+                        <img class="logo-preview" src="logos/PNG/shikha-fatima.png" alt="معاينة شعار معهد الشيخة فاطمة">
+                        <h3>معهد الشيخة فاطمة</h3>
+                        <div class="logo-downloads">
+                            <a class="resource-download" href="logos/PDF/shikha-fatima.pdf" download>PDF</a>
+                            <a class="resource-download" href="logos/PNG/shikha-fatima.png" download>PNG</a>
+                            <a class="resource-download" href="logos/SVG/shikha-fatima.svg" download>SVG</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="anthem-section" class="section hidden">
+            <div class="container">
+                <button type="button" class="back-button" onclick="showNavigation()">
+                    <div class="back-arrow"></div>
+                    <span>العودة للقائمة الرئيسية</span>
+                </button>
+                <h2>أناشيد دار الأرقم</h2>
+                <div class="anthem-content">
+                    <div class="anthem-video">
+                        <iframe
+                            src="https://www.youtube.com/embed/tM05OS_2uTc?si=j4UecoiENZ1LDSdR"
+                            title="أنشودة دار الأرقم - يا أعظم دستور"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="anthem-download">
+                        <h3>يا أعظم دستور</h3>
+                        <a class="resource-download" href="MP3/أنشودة دار الأرقم - يا أعظم دستور.mp3" download="أنشودة دار الأرقم - يا أعظم دستور.mp3">تحميل MP3</a>
+                    </div>
+                </div>
+                <div class="anthem-content">
+                    <div class="anthem-video">
+
+                        <iframe
+                            src="https://www.youtube.com/embed/g2PKMPIC8CQ?si=WpgKfAPNkj-wNMKd"
+                            title="أنشودة دار الأرقم - حب القرآن"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="anthem-download">
+                        <h3>حب القرآن</h3>
+                        <a class="resource-download" href="MP3/أنشودة دار الأرقم - حب القرآن.mp3" download="أنشودة دار الأرقم - حب القرآن.mp3">تحميل MP3</a>
+                    </div>
                 </div>
             </div>
         </section>

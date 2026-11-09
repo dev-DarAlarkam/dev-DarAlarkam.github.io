@@ -303,6 +303,104 @@ button:disabled {
     background-color: var(--secondary-color);
     transform: translateY(-2px);
 }
+
+.logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 18px;
+    max-width: 900px;
+    margin: 24px auto 0;
+}
+
+.logo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: #f9ecd9;
+    border: 3px solid #d5c19d;
+    border-radius: 5px;
+}
+
+.logo-preview {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 1;
+    padding: 20px;
+    background: #fff;
+    object-fit: contain;
+}
+
+.logo-card h3,
+.anthem-download h3 {
+    font-size: 1rem;
+}
+
+.logo-downloads {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+}
+
+.anthem-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    max-width: 760px;
+    margin: 24px auto 0;
+    text-align: right;
+}
+
+.anthem-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #222;
+}
+
+.anthem-video iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.anthem-download {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid #d5c19d;
+    border-radius: 5px;
+}
+
+.anthem-download .resource-download {
+    flex: 0 0 auto;
+}
+
+.resource-download {
+    flex: 1 1 56px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.resource-download {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+}
+
+.resource-download:hover {
+    background-color: #9e6335;
+    text-decoration: none;
+}
+
 .back-button {
     background-color: var(--primary-color);
     color: #ffffff;
@@ -377,6 +475,10 @@ button:disabled {
         width: 100%;
         max-width: 100%;
         margin: 0;
+    }
+
+    .anthem-content {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
