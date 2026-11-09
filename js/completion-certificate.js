@@ -1,4 +1,4 @@
-const completionCertificateTemplatePath = 'images/completion-certificate.png';
+const completionCertificateTemplatePath = 'assets/images/completion-certificate.png';
 let completionCertificateCache = null;
 let completionPreviewRequestId = 0;
 const completionCertificateYearsStorageKey = 'darAlarkamCompletionCertificateYears';

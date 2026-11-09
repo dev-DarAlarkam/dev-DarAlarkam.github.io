@@ -1,61 +1,36 @@
 // Navigation functions
 function showSection(type) {
-    // Hide all sections
-    document.getElementById('nav-section').classList.add('hidden');
-    document.getElementById('certificate-section').classList.add('hidden');
-    document.getElementById('completion-certificate-section').classList.add('hidden');
-    document.getElementById('announcements-section').classList.add('hidden');
-    document.getElementById('resources-section').classList.add('hidden');
-    document.getElementById('anthem-section').classList.add('hidden');
+    const pages = {
+        certificates: 'html/certificates.html',
+        'completion-certificate': 'html/completion-certificates.html',
+        announcements: 'html/announcements.html',
+        resources: 'html/resources.html',
+        anthem: 'html/anthem.html',
+        'rooms-program': 'html/rooms-program.html'
+    };
 
-    // Show selected section
-    if (type === 'certificates') {
-        document.getElementById('certificate-section').classList.remove('hidden');
-        document.getElementById('certificate-preview').classList.add('hidden');
-    } else if (type === 'completion-certificate') {
-        document.getElementById('completion-certificate-section').classList.remove('hidden');
-        document.getElementById('completion-certificate-preview').classList.add('hidden');
-        document.getElementById('grades-certificate-preview').classList.add('hidden');
-    } else if (type === 'announcements') {
-        document.getElementById('announcements-section').classList.remove('hidden');
-    } else if (type === 'resources') {
-        document.getElementById('resources-section').classList.remove('hidden');
-    } else if (type === 'anthem') {
-        document.getElementById('anthem-section').classList.remove('hidden');
+    if (pages[type]) {
+        window.location.href = pages[type];
     }
 }
 
 function showNavigation() {
-    // Hide all sections
-    document.getElementById('certificate-section').classList.add('hidden');
-    document.getElementById('completion-certificate-section').classList.add('hidden');
-    document.getElementById('announcements-section').classList.add('hidden');
-    document.getElementById('resources-section').classList.add('hidden');
-    document.getElementById('anthem-section').classList.add('hidden');
-    document.getElementById('certificate-preview').classList.add('hidden');
-    document.getElementById('completion-certificate-preview').classList.add('hidden');
-    document.getElementById('grades-certificate-preview').classList.add('hidden');
-    
-    // Show navigation
-    document.getElementById('nav-section').classList.remove('hidden');
-    
-    // Reset form
-    document.getElementById('certificate-form').reset();
-    document.getElementById('completion-certificate-form').reset();
-    restoreCompletionCertificateYears();
-    resetGradesCertificateForm();
-    document.getElementById('pdf-button').disabled = true;
-    document.getElementById('png-button').disabled = true;
-    document.getElementById('completion-pdf-button').disabled = true;
-    document.getElementById('completion-png-button').disabled = true;
-    document.getElementById('message').innerHTML = '';
-    document.getElementById('completion-message').innerHTML = '';
+    window.location.href = 'index.html';
 }
 
 const pageHeader = document.querySelector('header');
 const pageFooter = document.querySelector('footer');
+const yearDisplay = document.getElementById('year-display');
+
+if (yearDisplay) {
+    yearDisplay.textContent = new Date().getFullYear();
+}
 
 function updateScrollVisibility() {
+    if (!pageHeader || !pageFooter) {
+        return;
+    }
+
     pageHeader.classList.toggle('is-hidden', window.scrollY > 0);
 
     const reachedBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;

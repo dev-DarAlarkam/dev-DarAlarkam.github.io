@@ -4,21 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أدوات مربو دار الأرقم</title>
-    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="js/navigation.js" defer></script>
-    <script src="js/form.js" defer></script>
-    <script src="js/certificate.js" defer></script>
-    <script src="js/completion-certificate.js" defer></script>
-    <script src="js/grades-certificate.js" defer></script>
-    <script src="js/data.js" defer></script>
-    <script src="js/Amiri-Bold.js" defer></script>
-    <script src="js/images.js" defer></script>
 </head>
-<body style="background-image: url('images/pattern.svg');">
+<body style="background-image: url('assets/images/pattern.svg');">
 
     <header>
         <nav>
@@ -32,7 +23,7 @@
         <!-- Navigation Section -->
         <section id="nav-section" class="section">
             <div class="container">
-                <img src="images/logo.svg" alt="شعار دار الأرقم" class="site-logo">
+                <img src="assets/images/logo.svg" alt="شعار دار الأرقم" class="site-logo">
                 <table id="nav-table">
                     <thead>
                         <tr>
@@ -49,18 +40,31 @@
                 <table id="nav-table">
                     <thead>
                         <tr>
+                            <th>برنامج الغرف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a class="nav-button" href="html/rooms-program.html">برنامج الأسبوع</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="nav-table">
+                    <thead>
+                        <tr>
                             <th>الشعارات والنشيد</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                <button class="nav-button" onclick="showSection('resources')">الشعارات</button>
-                                <button class="nav-button" onclick="showSection('anthem')">نشيد دار الأرقم</button>
+                                <a class="nav-button" href="html/resources.html">الشعارات</a>
+                                <a class="nav-button" href="html/anthem.html">نشيد دار الأرقم</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
                 <table id="nav-table">
                     <thead>
                         <tr>
@@ -70,8 +74,8 @@
                     <tbody>
                         <tr>
                             <td>
-                                <button class="nav-button" onclick="showSection('certificates')">شهادات الحفظ</button>
-                                <button class="nav-button" onclick="showSection('completion-certificate')">شهادة تخرّج للفتيان</button>
+                                <a class="nav-button" href="html/certificates.html">شهادات الحفظ</a>
+                                <a class="nav-button" href="html/completion-certificates.html">شهادة تخرّج للفتيان</a>
                             </td>
                         </tr>
                     
@@ -85,310 +89,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><button class="nav-button" onclick="showSection('announcements')">إعلانات المنتدى الفكري</button></td>
+                            <td><a class="nav-button" href="html/announcements.html">إعلانات المنتدى الفكري</a></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </section>
-        
-        <!-- Certificate Generator Section -->
-        <section id="certificate-section" class="section hidden">
-            <div class="container">
-
-                <button type="button" class="back-button" onclick="showNavigation()">
-                    <div class="back-arrow"></div>
-                    <span>العودة للقائمة الرئيسية</span>
-                </button>
-                <h2>إنشاء شهادة حفظ</h2>
-                <div class="form-container">
-                    <form id="certificate-form">
-                        <div class="form-group">
-                            <label for="student-name">اسم الطالب:</label>
-                            <input type="text" id="student-name" name="studentName" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="gender">طالب أم طالبة؟</label>
-                            <div class="radio-group">
-                                <label class="custom-radio">
-                                    <input id="male" onclick="handleClick(this);" type="radio" name="gender" value="cert-male" checked>
-                                    <span class="radio-mark"></span>
-                                    طالب
-                                </label>
-                                <label class="custom-radio">
-                                    <input id="female" onclick="handleClick(this);" type="radio" name="gender" value="cert-female">
-                                    <span class="radio-mark"></span>
-                                    طالبة
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="certificate-type">نوع الشهادة:</label>
-                            <select id="certificate-type" name="certificateType" required>
-                                <option value="">اختر نوع الشهادة</option>
-                                <option value="1">حفظ جزء</option>
-                                <option value="5">حفظ 5 أجزاء</option>
-                                <option value="10">حفظ 10 أجزاء</option>
-                                <option value="15">حفظ 15 أجزاء</option>
-                                <option value="20">حفظ 20 أجزاء</option>
-                                <option value="25">حفظ 25 أجزاء</option>
-                            </select>
-                        </div>
-                        <!-- Dynamic fields container -->
-                        <div id="dynamic-fields"></div>
-                        
-                        <div class="sized-box"></div>
-                        <button type="button" onclick="generatePreview()">معاينة الشهادة</button>
-                        <button type="button" onclick="exportAsPDF()" id="pdf-button" disabled>تحميل PDF</button>
-                        <button type="button" onclick="exportAsPNG()" id="png-button" disabled>تحميل PNG</button>
-                        
-                    </form>
-                    
-                    <div id="message"></div>
-                </div>
-
-                <!-- Certificate Preview -->
-                <div id="certificate-preview" class="certificate-container"></div>
-            </div>
-        </section>
-
-        <!-- Completion Certificate Generator Section -->
-        <section id="completion-certificate-section" class="section hidden">
-            <div class="container">
-                <div id="completion-certificate-workflow" class="completion-certificate-workflow">
-                <button type="button" class="back-button" onclick="showNavigation()">
-                    <div class="back-arrow"></div>
-                    <span>العودة للقائمة الرئيسية</span>
-                </button>
-                <h2>إنشاء شهادة تخرّج للفتيان</h2>
-                <div class="form-container">
-                    <form id="completion-certificate-form">
-                        <div class="form-group">
-                            <label for="completion-student-name">اسم الطالب:</label>
-                            <input type="text" id="completion-student-name" name="studentName" required>
-                        </div>
-                        <div class="form-group completion-years-setting">
-                            <span>سنوات البرنامج: <strong id="completion-years-display">1444 - 1448 هـ</strong></span>
-                            <button type="button" onclick="openCompletionYearsDialog()">تعديل السنوات</button>
-                        </div>
-                        <div class="sized-box"></div>
-                        <button type="button" id="completion-preview-button" onclick="generateCompletionPreview()">معاينة الشهادة</button>
-                        <button type="button" onclick="exportCompletionAsPDF()" id="completion-pdf-button" disabled>تحميل PDF</button>
-                        <button type="button" onclick="exportCompletionAsPNG()" id="completion-png-button" disabled>تحميل PNG</button>
-                    </form>
-                    <div id="completion-message"></div>
-                </div>
-                <div id="completion-certificate-preview" class="certificate-container hidden"></div>
-                </div>
-                <div class="grades-certificate-section">
-                    <h2>إنشاء شهادة درجات</h2>
-                    <div class="form-container">
-                        <form id="grades-certificate-form">
-                            <div class="form-group">
-                                <label for="grades-student-name">اسم الطالب:</label>
-                                <input type="text" id="grades-student-name" name="studentName" required>
-                            </div>
-                            <div class="grades-table-wrapper">
-                                <table class="grades-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">المعيار</th>
-                                            <th scope="col">العلامة (من 100)</th>
-                                            <th scope="col">حذف</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="grades-table-body"></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th scope="row">المعدل</th>
-                                            <td id="grades-average">-</td>
-                                            <td></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <button type="button" onclick="addGradesRow()" id="add-grades-row-button">إضافة مادة</button>
-                            <div class="sized-box"></div>
-                            <button type="button" id="grades-preview-button" onclick="generateGradesPreview()">معاينة الشهادة</button>
-                            <button type="button" onclick="exportGradesAsPDF()" id="grades-pdf-button" disabled>تحميل PDF</button>
-                            <button type="button" onclick="exportGradesAsPNG()" id="grades-png-button" disabled>تحميل PNG</button>
-                        </form>
-                        <div id="grades-message"></div>
-                    </div>
-                    <div id="grades-certificate-preview" class="certificate-container hidden"></div>
-                </div>
-                <dialog id="completion-years-dialog" aria-labelledby="completion-years-dialog-title">
-                    <h3 id="completion-years-dialog-title">تعديل سنوات البرنامج</h3>
-                    <div class="form-group">
-                        <label for="completion-start-year">سنة البداية (هجري):</label>
-                        <select id="completion-start-year" name="startYear"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="completion-finish-year">سنة النهاية (هجري):</label>
-                        <select id="completion-finish-year" name="finishYear"></select>
-                    </div>
-                    <div class="completion-years-dialog-actions">
-                        <button type="button" onclick="saveCompletionCertificateYears()">حفظ</button>
-                        <button type="button" onclick="closeCompletionYearsDialog()">إلغاء</button>
-                    </div>
-                </dialog>
-            </div>
-        </section>
-
-        <!-- Announcements Section (Placeholder) -->
-        <section id="announcements-section" class="section hidden">
-            <div class="container">
-                <h2>إنشاء إعلان</h2>
-                <div class="form-container">
-                    <p>قريباً... سيتم إضافة وظيفة إنشاء الإعلانات</p>
-                    <button type="button" onclick="showNavigation()">العودة للقائمة الرئيسية</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="resources-section" class="section hidden">
-            <div class="container">
-                <button type="button" class="back-button" onclick="showNavigation()">
-                    <div class="back-arrow"></div>
-                    <span>العودة للقائمة الرئيسية</span>
-                </button>
-                <h2>شعارات دار الأرقم</h2>
-                <div class="logo-grid">
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/main-full.png" alt="معاينة الشعار الرئيسي الكامل">
-                        <h3>الشعار الرئيسي - كامل</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/main-full.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/main-full.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/main-full.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/main-minimal.png" alt="معاينة الشعار الرئيسي المختصر">
-                        <h3>الشعار الرئيسي - مختصر</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/main-minimal.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/main-minimal.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/main-minimal.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/all-logos.png" alt="معاينة مجموعة الشعارات كاملة">
-                        <h3>مجموعة الشعارات كاملة</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/all-logos.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/all-logos.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/all-logos.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/fityan.png" alt="معاينة شعار فتيان دار الأرقم">
-                        <h3>فتيان دار الأرقم</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/fityan.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/fityan.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/fityan.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/hafadha.png" alt="معاينة شعار ملتقى الحفاظ">
-                        <h3>ملتقى الحفظة</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/hafadha.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/hafadha.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/hafadha.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/maahad.png" alt="معاينة شعار المعاهد والمقارئ القرآنية">
-                        <h3>المعاهد والمقارئ القرآنية</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/maahad.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/maahad.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/maahad.svg" download>SVG</a>
-                        </div>
-                    </article>
-
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/moltaqa.png" alt="معاينة شعار ملتقى دار الأرقم الفكري">
-                        <h3>ملتقى دار الأرقم الفكري</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/moltaqa.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/moltaqa.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/moltaqa.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/nashr-w-i'lam.png" alt="معاينة شعار النشر والإعلام">
-                        <h3>النشر والإعلام</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/nashr-w-i'lam.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/nashr-w-i'lam.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/nashr-w-i'lam.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/qaeda-nouraniya.png" alt="معاينة شعار القاعدة النورانية">
-                        <h3>القاعدة النورانية</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/qaeda-nouraniya.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/qaeda-nouraniya.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/qaeda-nouraniya.svg" download>SVG</a>
-                        </div>
-                    </article>
-                    <article class="logo-card">
-                        <img class="logo-preview" src="logos/PNG/shikha-fatima.png" alt="معاينة شعار معهد الشيخة فاطمة">
-                        <h3>معهد الشيخة فاطمة</h3>
-                        <div class="logo-downloads">
-                            <a class="resource-download" href="logos/PDF/shikha-fatima.pdf" download>PDF</a>
-                            <a class="resource-download" href="logos/PNG/shikha-fatima.png" download>PNG</a>
-                            <a class="resource-download" href="logos/SVG/shikha-fatima.svg" download>SVG</a>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="anthem-section" class="section hidden">
-            <div class="container">
-                <button type="button" class="back-button" onclick="showNavigation()">
-                    <div class="back-arrow"></div>
-                    <span>العودة للقائمة الرئيسية</span>
-                </button>
-                <h2>أناشيد دار الأرقم</h2>
-                <div class="anthem-content">
-                    <div class="anthem-video">
-                        <iframe
-                            src="https://www.youtube.com/embed/tM05OS_2uTc?si=j4UecoiENZ1LDSdR"
-                            title="أنشودة دار الأرقم - يا أعظم دستور"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="anthem-download">
-                        <h3>يا أعظم دستور</h3>
-                        <a class="resource-download" href="MP3/أنشودة دار الأرقم - يا أعظم دستور.mp3" download="أنشودة دار الأرقم - يا أعظم دستور.mp3">تحميل MP3</a>
-                    </div>
-                </div>
-                <div class="anthem-content">
-                    <div class="anthem-video">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/g2PKMPIC8CQ?si=WpgKfAPNkj-wNMKd"
-                            title="أنشودة دار الأرقم - حب القرآن"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="anthem-download">
-                        <h3>حب القرآن</h3>
-                        <a class="resource-download" href="MP3/أنشودة دار الأرقم - حب القرآن.mp3" download="أنشودة دار الأرقم - حب القرآن.mp3">تحميل MP3</a>
-                    </div>
-                </div>
             </div>
         </section>
         

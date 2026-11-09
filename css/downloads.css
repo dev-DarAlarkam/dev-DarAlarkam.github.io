@@ -1,0 +1,16 @@
+.resource-download {
+    display: inline-block;
+    flex: 1 1 56px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.resource-download:hover {
+    background-color: #9e6335;
+    text-decoration: none;
+}

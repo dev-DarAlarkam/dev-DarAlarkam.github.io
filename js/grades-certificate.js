@@ -1,7 +1,7 @@
 const gradesCertificateTemplates = {
-    gold: 'images/grades-certificate-gold.png',
-    silver: 'images/grades-certificate-silver.png',
-    bronze: 'images/grades-certificate-bronze.png'
+    gold: 'assets/images/grades-certificate-gold.png',
+    silver: 'assets/images/grades-certificate-silver.png',
+    bronze: 'assets/images/grades-certificate-bronze.png'
 };
 const gradesCertificateMaximumRows = 10;
 const gradesCertificateTableStyle = {

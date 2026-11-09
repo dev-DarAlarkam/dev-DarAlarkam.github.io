@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>شهادات التخرج والدرجات | دار الأرقم</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/certificates.css">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/completion-certificate.js" defer></script>
+    <script src="js/grades-certificate.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/Amiri-Bold.js" defer></script>
+    <script src="js/images.js" defer></script>
+</head>
+<body style="background-image: url('assets/images/pattern.svg');">
+    <header><nav><h1>أدوات مربو دار الأرقم</h1><a class="home-link" href="index.html">الرئيسية</a></nav></header>
+    <main><section class="section"><div class="container">
+        <a class="back-button" href="index.html"><div class="back-arrow"></div><span>العودة للقائمة الرئيسية</span></a>
+        <div id="completion-certificate-workflow" class="completion-certificate-workflow">
+            <h2>إنشاء شهادة تخرّج للفتيان</h2>
+            <div class="form-container"><form id="completion-certificate-form">
+                <div class="form-group"><label for="completion-student-name">اسم الطالب:</label><input type="text" id="completion-student-name" name="studentName" required></div>
+                <div class="form-group completion-years-setting"><span>سنوات البرنامج: <strong id="completion-years-display">1444 - 1448 هـ</strong></span><button type="button" onclick="openCompletionYearsDialog()">تعديل السنوات</button></div>
+                <div class="sized-box"></div>
+                <button type="button" id="completion-preview-button" onclick="generateCompletionPreview()">معاينة الشهادة</button>
+                <button type="button" onclick="exportCompletionAsPDF()" id="completion-pdf-button" disabled>تحميل PDF</button>
+                <button type="button" onclick="exportCompletionAsPNG()" id="completion-png-button" disabled>تحميل PNG</button>
+            </form><div id="completion-message"></div></div>
+            <div id="completion-certificate-preview" class="certificate-container hidden"></div>
+        </div>
+        <div class="grades-certificate-section">
+            <h2>إنشاء شهادة درجات</h2>
+            <div class="form-container"><form id="grades-certificate-form">
+                <div class="form-group"><label for="grades-student-name">اسم الطالب:</label><input type="text" id="grades-student-name" name="studentName" required></div>
+                <div class="grades-table-wrapper"><table class="grades-table">
+                    <thead><tr><th scope="col">المعيار</th><th scope="col">العلامة (من 100)</th><th scope="col">حذف</th></tr></thead>
+                    <tbody id="grades-table-body"></tbody>
+                    <tfoot><tr><th scope="row">المعدل</th><td id="grades-average">-</td><td></td></tr></tfoot>
+                </table></div>
+                <button type="button" onclick="addGradesRow()" id="add-grades-row-button">إضافة مادة</button>
+                <div class="sized-box"></div>
+                <button type="button" id="grades-preview-button" onclick="generateGradesPreview()">معاينة الشهادة</button>
+                <button type="button" onclick="exportGradesAsPDF()" id="grades-pdf-button" disabled>تحميل PDF</button>
+                <button type="button" onclick="exportGradesAsPNG()" id="grades-png-button" disabled>تحميل PNG</button>
+            </form><div id="grades-message"></div></div>
+            <div id="grades-certificate-preview" class="certificate-container hidden"></div>
+        </div>
+        <dialog id="completion-years-dialog" aria-labelledby="completion-years-dialog-title">
+            <h3 id="completion-years-dialog-title">تعديل سنوات البرنامج</h3>
+            <div class="form-group"><label for="completion-start-year">سنة البداية (هجري):</label><select id="completion-start-year" name="startYear"></select></div>
+            <div class="form-group"><label for="completion-finish-year">سنة النهاية (هجري):</label><select id="completion-finish-year" name="finishYear"></select></div>
+            <div class="completion-years-dialog-actions"><button type="button" onclick="saveCompletionCertificateYears()">حفظ</button><button type="button" onclick="closeCompletionYearsDialog()">إلغاء</button></div>
+        </dialog>
+    </div></section></main>
+    <footer><p>&copy; <strong id="year-display"></strong> <a href="https://www.facebook.com/dar9alarkam" target="_blank" rel="noopener">دار الأرقم</a>. جميع الحقوق محفوظة.</p></footer>
+</body>
+</html>

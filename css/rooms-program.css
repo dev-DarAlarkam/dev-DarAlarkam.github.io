@@ -1,0 +1,77 @@
+.rooms-program-days {
+    display: grid;
+    gap: 12px;
+    max-width: 1000px;
+    margin: 24px auto;
+    text-align: right;
+}
+
+.rooms-day {
+    overflow: hidden;
+    background: #f9ecd9;
+    border: 1px solid #d5c19d;
+    border-radius: 5px;
+}
+
+.rooms-day summary {
+    padding: 14px 18px;
+    background: #e8d2b5;
+    color: #333;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.rooms-day[open] summary {
+    border-bottom: 1px solid #d5c19d;
+}
+
+.rooms-day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 10px;
+    padding: 14px;
+}
+
+.room-schedule {
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #eadfcf;
+    border-radius: 4px;
+}
+
+.room-schedule h3 {
+    margin-bottom: 6px;
+    color: #176b3a;
+    font-size: 0.95rem;
+}
+
+.room-schedule-empty {
+    background: #f7f4ed;
+}
+
+.room-schedule-empty p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.room-schedule-shared::after {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+    content: 'برنامج مشترك';
+    font-size: 0.8rem;
+}
+
+.room-schedule ul {
+    padding-right: 18px;
+}
+
+.room-schedule li + li {
+    margin-top: 5px;
+}
+
+.rooms-source-link {
+    display: inline-block;
+    margin-top: 4px;
+    color: #176b3a;
+}
