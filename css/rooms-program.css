@@ -70,6 +70,11 @@
     margin-top: 5px;
 }
 
+.room-schedule-separator {
+    padding: 0 6px;
+    color: var(--primary-color);
+}
+
 .rooms-source-link {
     display: inline-block;
     margin-top: 4px;
